@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Get-Time agent is a simple time output agent that periodically writes the current time to a file. It runs continuously at configurable intervals and supports different timezones.
+The Get-Time agent is a simple time output agent that periodically writes the current time to a file. It runs continuously at configurable intervals and supports different timezones. The agent can also be configured to run only once by setting the interval to 0.
 
 ## Configuration
 
@@ -10,7 +10,7 @@ The agent accepts the following configuration parameters:
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `interval` | number | 5 | Time interval in seconds between each output |
+| `interval` | number | 5 | Time interval in seconds between each output. Use `0` to run only once |
 | `timezone` | string | 'UTC' | Timezone for the output (e.g., 'UTC', 'EST', 'PST') |
 | `outputFile` | string | 'output.txt' | Name of the output file |
 
@@ -44,6 +44,23 @@ You can modify the configuration by editing `src/agents/get-time/config.json`:
     "outputFile": "time-output.txt"
 }
 ```
+
+### Single-Run Mode
+
+To run the agent only once (output a single timestamp and then stop), set the interval to 0:
+
+```json
+{
+    "interval": 0,
+    "timezone": "UTC",
+    "outputFile": "single-time.txt"
+}
+```
+
+In single-run mode, the agent will:
+1. Output the current time once
+2. Log completion
+3. Stop automatically without requiring manual intervention
 
 ## Supported Timezones
 

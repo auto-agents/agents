@@ -64,6 +64,14 @@ class GetTimeAgent extends AgentBase {
      * Start the time output loop
      */
     async startTimeOutput() {
+        if (this.config.interval === 0) {
+            // Run only once
+            this.log('info', 'Running agent once (interval = 0)');
+            await this.outputCurrentTime();
+            this.log('info', 'Single run completed');
+            return;
+        }
+
         return new Promise((resolve, reject) => {
             this.interval = setInterval(async () => {
                 if (this.state === 'stopping') {
