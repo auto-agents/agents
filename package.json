@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "software agents",
   "main": "src/main.js",
+  "type": "module",
   "directories": {
     "doc": "doc"
   },
@@ -16,5 +17,8 @@
     "orchestrator"
   ],
   "author": "franck gaspoz",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "uuid": "^9.0.0"
+  }
 }

@@ -50,12 +50,6 @@ export const RUN_PROPERTIES = {
     ERROR: 'Error'
 };
 
-// Message structure keys
-export const MESSAGE_KEYS = {
-    COMMAND: 'command',
-    RUN_CONFIG: 'runConfig'
-};
-
 // Run configuration structure
 export const RUN_CONFIG = {
     INPUT: 'input',

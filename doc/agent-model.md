@@ -48,12 +48,12 @@ The base class agent is defined by the class `AgentBase`. It implements the stan
 Each specific agent is defined by a class that extends the base agent class. Any agent must inherit from this class. Each of these classes have their own folder, organized like this:
 - agent implementation folder: src/agents/[agent name]
 - agent configuration file: src/agents/[agent name]/config.json
-- agent run folder: src/agents/[agent name]/run/[run id]
-- agent run log file: src/agents/[agent name]/run/[run id]/run.log
-- agent run preformance measures file: src/agents/[agent name]/run/[run id]/performance-measures.json
-- agent run backup input file: src/agents/[agent name]/run/[run id]/input.json
-- agent run output files: src/agents/[agent name]/run/[run id]/output.json
-- agent run state is stored in a json file: src/agents/[agent name]/run/[run id]/state.json
+- agent run folder: run/[agent name]/[run id]
+- agent run log file: run/[agent name]/[run id]/run.log
+- agent run preformance measures file: run/[agent name]/[run id]/performance-measures.json
+- agent run backup input file: run/[agent name]/[run id]/input.json
+- agent run output files are in: run/[agent name]/[run id]/output
+- agent run state is stored in a json file: run/[agent name]/[run id]/state.json
 
 The method `run` is the main method of the agent. It is internally called by the method `start` when the agent is started. It must not be called directly by the user. The method is blocking until the execution fails or ends.
 

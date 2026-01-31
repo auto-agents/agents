@@ -12,6 +12,9 @@ class GetTimeAgent extends AgentBase {
             timezone: 'UTC',
             outputFile: 'output.txt'
         };
+
+        // Add debugging
+        console.log('GetTimeAgent constructor called');
     }
 
     /**
@@ -101,8 +104,12 @@ class GetTimeAgent extends AgentBase {
             // Create output string
             const output = `${formattedTime}\n`;
 
-            // Write to output file in run directory
-            const outputPath = join(this.getRunDirectory(), this.config.outputFile);
+            // Create output directory if it doesn't exist
+            const outputDir = join(this.getRunDirectory(), 'output');
+            await fs.mkdir(outputDir, { recursive: true });
+
+            // Write to output file in output directory
+            const outputPath = join(outputDir, this.config.outputFile);
             await fs.writeFile(outputPath, output);
 
             this.log('info', `Time output written: ${formattedTime}`);
@@ -185,3 +192,6 @@ class GetTimeAgent extends AgentBase {
 }
 
 export default GetTimeAgent;
+
+// Instantiate the agent when this file is run directly
+const agent = new GetTimeAgent();

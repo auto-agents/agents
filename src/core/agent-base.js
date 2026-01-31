@@ -6,8 +6,7 @@ import {
     AGENT_COMMANDS,
     LOG_LEVELS,
     FILE_NAMES,
-    RUN_PROPERTIES,
-    MESSAGE_KEYS
+    RUN_PROPERTIES
 } from './agent-consts.js';
 
 class AgentBase {
@@ -196,7 +195,7 @@ class AgentBase {
      * Get run directory path
      */
     getRunDirectory() {
-        return join(process.cwd(), 'src', 'agents', this.agentName, 'run', this.currentRunId);
+        return join(process.cwd(), 'run', this.agentName, this.currentRunId);
     }
 
     /**

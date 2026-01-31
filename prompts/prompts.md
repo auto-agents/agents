@@ -8,11 +8,11 @@ implements src/core/agent-base.js
 
 ## updates
 
-```
 any keyword must be defined by a const in the file `src/core/agent-consts.js`
 
 add use of log levels consts
-```
+
+change agent run folder from `src/agents/[agent name]/run/[run id]` to `run/[agent name]/[run id]`
 
 ## test agent
 
@@ -21,4 +21,3 @@ implements an agent named `get-time` in folder `/src/agents/get-time/get-time.js
 do not use individual class attributes to store config in the agent `test-agent.js`, kept a single config object
 
 implements the file `node src/agents/get-time/test-agent.js` according to the specification defined in `doc/agent-model.md` that run the agent `get-time`
-
