@@ -46,6 +46,7 @@ The whole solution use `nodejs` as runtime environment.
 The base class agent is defined by the class `AgentBase`. It implements the standardized agent interface. Any agent must inherit from this class. This class is defined in the file `src/core/agent-base.js`
 
 Each specific agent is defined by a class that extends the base agent class. Any agent must inherit from this class. Each of these classes have their own folder, organized like this:
+- agent documentation: file src/agents/[agent name]/usage.md
 - agent implementation folder: src/agents/[agent name]
 - agent configuration file: src/agents/[agent name]/config.json
 - agent run folder: run/[agent name]/[run id]
