@@ -14,6 +14,8 @@ add use of log levels consts
 
 change agent run folder from `src/agents/[agent name]/run/[run id]` to `run/[agent name]/[run id]`
 
+add agent documentation file `src/agents/[agent name]/usage.md`
+
 ## test agent
 
 implements an agent named `get-time` in folder `/src/agents/get-time/get-time.js`. this agent has not input file, it output the current time in the format `YYYY-MM-DD HH:mm:ss`. it as a configuration parameter `interval` that defines the interval in seconds between each output. the default interval value is 5 seconds. it as a configuration parameter `timezone` that defines the timezone of the output. the default timezone value is 'UTC'. It as a configuration parameter `outputFile` that defines the file where the output is written. the default output file is `output.txt`. 
