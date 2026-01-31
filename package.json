@@ -1,0 +1,20 @@
+{
+  "name": "agents",
+  "version": "1.0.0",
+  "description": "software agents",
+  "main": "src/main.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "test.js"
+  },
+  "keywords": [
+    "software",
+    "agents",
+    "workflow",
+    "orchestrator"
+  ],
+  "author": "franck gaspoz",
+  "license": "MIT"
+}

@@ -43,7 +43,7 @@ A software agent always has these characteristics:
 
 The whole solution use `nodejs` as runtime environment.
 
-The base class agent is defined by the class AgentBase. It implements the standardized agent interface. Any agent must inherit from this class. This class is defined in the file `src/core/agent-base.js`
+The base class agent is defined by the class `AgentBase`. It implements the standardized agent interface. Any agent must inherit from this class. This class is defined in the file `src/core/agent-base.js`
 
 Each specific agent is defined by a class that extends the base agent class. Any agent must inherit from this class. Each of these classes have their own folder, organized like this:
 - agent implementation folder: src/agents/[agent name]
@@ -98,3 +98,4 @@ The agent process receive commands from the parent process through an IPC channe
  }
  ```
 
+any keyword must be defined by a const in the file `src/core/agent-consts.js`
