@@ -34,3 +34,5 @@ And the models
 ---
 
 *this software is copyrighted by Franck Gaspoz, since January 2026, under the **MIT Licence***
+
+picture credit: [https://raphaelai.org/](https://raphaelai.org/)
