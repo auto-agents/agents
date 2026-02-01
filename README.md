@@ -22,7 +22,7 @@
 
 This stuff has been `AI Generated` and `Vibe-Coded` using :
 
-<img src='assets/windsurf-white-wordmark-croped.png' alt='Windsurf logo' max-width='600'>
+<img src='assets/windsurf-white-wordmark-croped.png' alt='Windsurf logo' max-width='600px'>
 
 <br>
 And LLM models :
