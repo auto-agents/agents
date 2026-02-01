@@ -6,6 +6,8 @@
 implements src/core/agent-base.js
 ```
 
+*👉 by default using model **SWE***
+
 ## updates
 
 any keyword must be defined by a const in the file `src/core/agent-consts.js`
@@ -17,6 +19,10 @@ change agent run folder from `src/agents/[agent name]/run/[run id]` to `run/[age
 add agent documentation file `src/agents/[agent name]/usage.md`
 
 update agent `get-time` and its `usage.md`, considering the new behavior: a configuration `interval` of value 0 means that the agent will run only once.
+
+Any log text or error message produced by an agent must be translatable. To do that, the texts of an agent must be located in the file: `src/agents/[agent name]/resources/text-[langage code (2 letters)].json`. Texts of the `agent-base.js` are also translatable and are stored in `src/core/resources/text-[langage code (2 letters)].json`. Instead of using hard coded strings, the agent classes (both base and derived classes) must get strings from the `text-[langage code (2 letters)].json` file. The right translations resource file must be selected within the environment variable AGENT_LANG if defined or fallback to a new setting in core/globals.json (default lang value is: `en`). The structure of these files is a json object with keys as the english text and values as the translated text. the values of the translated texts will have subsituables parameters if needed. for example: "Processing file {0}..." where {0} will be replaced by the file name.
+
+*👉 the internationlization task has needed using model **GPT-2.5 low reasoning***
 
 ## test: the get-time agent
 
