@@ -8,6 +8,12 @@ import {
     FILE_NAMES,
     RUN_PROPERTIES
 } from './agent-consts.js';
+import {
+    formatText,
+    loadAgentTexts,
+    loadCoreTexts,
+    resolveLang
+} from './i18n.js';
 
 class AgentBase {
     constructor(agentName) {
@@ -18,12 +24,38 @@ class AgentBase {
         this.runEndTime = null;
         this.process = null;
 
+        this._lang = null;
+        this._coreTexts = null;
+        this._agentTexts = null;
+        this._textsLoaded = null;
+
         // Setup IPC communication
         process.on('message', this.handleMessage.bind(this));
 
         // Handle graceful shutdown
         process.on('SIGINT', () => this.stop());
         process.on('SIGTERM', () => this.stop());
+    }
+
+    async _ensureTextsLoaded() {
+        if (this._textsLoaded) {
+            return this._textsLoaded;
+        }
+
+        this._textsLoaded = (async () => {
+            this._lang = await resolveLang();
+            this._coreTexts = await loadCoreTexts(this._lang);
+            this._agentTexts = await loadAgentTexts(this.agentName, this._lang);
+        })();
+
+        return this._textsLoaded;
+    }
+
+    async _t(textKey, params = []) {
+        await this._ensureTextsLoaded();
+
+        const candidate = this._agentTexts?.[textKey] ?? this._coreTexts?.[textKey] ?? textKey;
+        return formatText(candidate, params);
     }
 
     /**
@@ -50,10 +82,10 @@ class AgentBase {
                     await this.exit();
                     break;
                 default:
-                    this.log(LOG_LEVELS.WARNING, `Unknown command: ${command}`);
+                    this.log(LOG_LEVELS.WARNING, 'Unknown command: {0}', command);
             }
         } catch (error) {
-            this.log(LOG_LEVELS.ERROR, `Error handling message: ${error.message}`);
+            this.log(LOG_LEVELS.ERROR, 'Error handling message: {0}', error.message);
             this.state = AGENT_STATES.ERROR;
         }
     }
@@ -63,7 +95,7 @@ class AgentBase {
      */
     async start(runConfig) {
         if (this.state !== AGENT_STATES.IDLE && this.state !== AGENT_STATES.STOPPED) {
-            throw new Error(`Cannot start agent in state: ${this.state}`);
+            throw new Error(await this._t('Cannot start agent in state: {0}', [this.state]));
         }
 
         try {
@@ -78,7 +110,7 @@ class AgentBase {
             await this.saveRunConfig(runConfig);
 
             // Log start
-            this.log(LOG_LEVELS.INFO, `Agent started with run ID: ${this.currentRunId}`);
+            this.log(LOG_LEVELS.INFO, 'Agent started with run ID: {0}', this.currentRunId);
 
             // Update state
             await this.updateState();
@@ -91,7 +123,7 @@ class AgentBase {
             this.state = AGENT_STATES.STOPPED;
 
             // Log completion
-            this.log(LOG_LEVELS.INFO, `Agent completed successfully`);
+            this.log(LOG_LEVELS.INFO, 'Agent completed successfully');
 
             // Update final state
             await this.updateState();
@@ -104,7 +136,7 @@ class AgentBase {
             this.runEndTime = new Date().toISOString();
             this.state = AGENT_STATES.ERROR;
 
-            this.log(LOG_LEVELS.ERROR, `Agent failed: ${error.message}`);
+            this.log(LOG_LEVELS.ERROR, 'Agent failed: {0}', error.message);
             await this.updateState();
             await this.savePerformanceMeasures();
 
@@ -143,7 +175,7 @@ class AgentBase {
      */
     async pause() {
         if (this.state !== AGENT_STATES.RUNNING) {
-            throw new Error(`Cannot pause agent in state: ${this.state}`);
+            throw new Error(await this._t('Cannot pause agent in state: {0}', [this.state]));
         }
 
         this.state = AGENT_STATES.PAUSED;
@@ -161,7 +193,7 @@ class AgentBase {
      */
     async resume() {
         if (this.state !== AGENT_STATES.PAUSED) {
-            throw new Error(`Cannot resume agent in state: ${this.state}`);
+            throw new Error(await this._t('Cannot resume agent in state: {0}', [this.state]));
         }
 
         this.state = AGENT_STATES.RUNNING;
@@ -215,7 +247,7 @@ class AgentBase {
             runId: this.currentRunId,
             startTime: this.runStartTime,
             endTime: this.runEndTime,
-            error: this.state === AGENT_STATES.ERROR ? 'Agent encountered an error' : null
+            error: this.state === AGENT_STATES.ERROR ? await this._t('Agent encountered an error') : null
         };
 
         const statePath = join(this.getRunDirectory(), FILE_NAMES.STATE);
@@ -248,8 +280,9 @@ class AgentBase {
     /**
      * Log agent activity
      */
-    async log(level, message) {
+    async log(level, textKey, ...params) {
         const timestamp = new Date().toISOString();
+        const message = await this._t(textKey, params);
         const logEntry = `[${timestamp}] [${level.toUpperCase()}] ${message}\n`;
 
         console.log(logEntry.trim());
@@ -259,7 +292,7 @@ class AgentBase {
             try {
                 await fs.appendFile(logPath, logEntry);
             } catch (error) {
-                console.error(`Failed to write to log file: ${error.message}`);
+                console.error(await this._t('Failed to write to log file: {0}', [error.message]));
             }
         }
     }
@@ -289,7 +322,7 @@ class AgentBase {
      * Abstract method to be implemented by subclasses
      */
     async run(runConfig) {
-        throw new Error('run method must be implemented by subclass');
+        throw new Error(await this._t('run method must be implemented by subclass'));
     }
 
     /**

@@ -1,0 +1,18 @@
+{
+  "Unknown command: {0}": "Unknown command: {0}",
+  "Error handling message: {0}": "Error handling message: {0}",
+  "Cannot start agent in state: {0}": "Cannot start agent in state: {0}",
+  "Agent started with run ID: {0}": "Agent started with run ID: {0}",
+  "Agent completed successfully": "Agent completed successfully",
+  "Agent failed: {0}": "Agent failed: {0}",
+  "Agent stopping...": "Agent stopping...",
+  "Agent stopped": "Agent stopped",
+  "Agent paused": "Agent paused",
+  "Agent resumed": "Agent resumed",
+  "Agent exiting...": "Agent exiting...",
+  "Cannot pause agent in state: {0}": "Cannot pause agent in state: {0}",
+  "Cannot resume agent in state: {0}": "Cannot resume agent in state: {0}",
+  "Agent encountered an error": "Agent encountered an error",
+  "Failed to write to log file: {0}": "Failed to write to log file: {0}",
+  "run method must be implemented by subclass": "run method must be implemented by subclass"
+}

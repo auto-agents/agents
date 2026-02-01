@@ -1,0 +1,16 @@
+{
+  "GetTimeAgent constructor called": "GetTimeAgent constructor called",
+  "Starting time output agent with interval: {0}s, timezone: {1}, output file: {2}": "Starting time output agent with interval: {0}s, timezone: {1}, output file: {2}",
+  "Failed to run get-time agent: {0}": "Failed to run get-time agent: {0}",
+  "Configuration loaded: interval={0}s, timezone={1}, outputFile={2}": "Configuration loaded: interval={0}s, timezone={1}, outputFile={2}",
+  "Failed to load configuration, using defaults: {0}": "Failed to load configuration, using defaults: {0}",
+  "Running agent once (interval = 0)": "Running agent once (interval = 0)",
+  "Single run completed": "Single run completed",
+  "Error outputting time: {0}": "Error outputting time: {0}",
+  "Time output written: {0}": "Time output written: {0}",
+  "Failed to output time: {0}": "Failed to output time: {0}",
+  "Error formatting time: {0}": "Error formatting time: {0}",
+  "Agent paused - time output stopped": "Agent paused - time output stopped",
+  "Agent resumed - time output restarted": "Agent resumed - time output restarted",
+  "Agent stopped - interval cleared": "Agent stopped - interval cleared"
+}

@@ -1,6 +1,7 @@
 import AgentBase from '../../core/agent-base.js';
 import { promises as fs } from 'fs';
 import { join } from 'path';
+import { LOG_LEVELS } from '../../core/agent-consts.js';
 
 class GetTimeAgent extends AgentBase {
     constructor() {
@@ -12,9 +13,6 @@ class GetTimeAgent extends AgentBase {
             timezone: 'UTC',
             outputFile: 'output.txt'
         };
-
-        // Add debugging
-        console.log('GetTimeAgent constructor called');
     }
 
     /**
@@ -25,13 +23,19 @@ class GetTimeAgent extends AgentBase {
             // Load configuration
             await this.loadConfiguration(runConfig);
 
-            this.log('info', `Starting time output agent with interval: ${this.config.interval}s, timezone: ${this.config.timezone}, output file: ${this.config.outputFile}`);
+            await this.log(
+                LOG_LEVELS.INFO,
+                'Starting time output agent with interval: {0}s, timezone: {1}, output file: {2}',
+                this.config.interval,
+                this.config.timezone,
+                this.config.outputFile
+            );
 
             // Start the time output loop
             await this.startTimeOutput();
 
         } catch (error) {
-            this.log('error', `Failed to run get-time agent: ${error.message}`);
+            await this.log(LOG_LEVELS.ERROR, 'Failed to run get-time agent: {0}', error.message);
             throw error;
         }
     }
@@ -49,10 +53,16 @@ class GetTimeAgent extends AgentBase {
             // Merge with run config
             this.config = { ...defaultConfig, ...runConfig.config };
 
-            this.log('info', `Configuration loaded: interval=${this.config.interval}s, timezone=${this.config.timezone}, outputFile=${this.config.outputFile}`);
+            await this.log(
+                LOG_LEVELS.INFO,
+                'Configuration loaded: interval={0}s, timezone={1}, outputFile={2}',
+                this.config.interval,
+                this.config.timezone,
+                this.config.outputFile
+            );
 
         } catch (error) {
-            this.log('warning', `Failed to load configuration, using defaults: ${error.message}`);
+            await this.log(LOG_LEVELS.WARNING, 'Failed to load configuration, using defaults: {0}', error.message);
             // Use defaults if config file doesn't exist
             if (runConfig.config) {
                 this.config = { ...this.config, ...runConfig.config };
@@ -66,9 +76,9 @@ class GetTimeAgent extends AgentBase {
     async startTimeOutput() {
         if (this.config.interval === 0) {
             // Run only once
-            this.log('info', 'Running agent once (interval = 0)');
+            await this.log(LOG_LEVELS.INFO, 'Running agent once (interval = 0)');
             await this.outputCurrentTime();
-            this.log('info', 'Single run completed');
+            await this.log(LOG_LEVELS.INFO, 'Single run completed');
             return;
         }
 
@@ -87,7 +97,7 @@ class GetTimeAgent extends AgentBase {
                     try {
                         await this.outputCurrentTime();
                     } catch (error) {
-                        this.log('error', `Error outputting time: ${error.message}`);
+                        await this.log(LOG_LEVELS.ERROR, 'Error outputting time: {0}', error.message);
                         reject(error);
                         return;
                     }
@@ -118,12 +128,12 @@ class GetTimeAgent extends AgentBase {
 
             // Write to output file in output directory
             const outputPath = join(outputDir, this.config.outputFile);
-            await fs.writeFile(outputPath, output);
+            await fs.writeFile(outputPath, output, 'utf8');
 
-            this.log('info', `Time output written: ${formattedTime}`);
+            await this.log(LOG_LEVELS.INFO, 'Time output written: {0}', formattedTime);
 
         } catch (error) {
-            this.log('error', `Failed to output time: ${error.message}`);
+            await this.log(LOG_LEVELS.ERROR, 'Failed to output time: {0}', error.message);
             throw error;
         }
     }
@@ -165,7 +175,7 @@ class GetTimeAgent extends AgentBase {
             return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
         } catch (error) {
-            this.log('error', `Error formatting time: ${error.message}`);
+            this.log(LOG_LEVELS.ERROR, 'Error formatting time: {0}', error.message);
             // Fallback to basic formatting
             return date.toISOString().replace('T', ' ').substring(0, 19);
         }
@@ -176,7 +186,7 @@ class GetTimeAgent extends AgentBase {
      */
     async onPause() {
         this.isPaused = true;
-        this.log('info', 'Agent paused - time output stopped');
+        await this.log(LOG_LEVELS.INFO, 'Agent paused - time output stopped');
     }
 
     /**
@@ -184,7 +194,7 @@ class GetTimeAgent extends AgentBase {
      */
     async onResume() {
         this.isPaused = false;
-        this.log('info', 'Agent resumed - time output restarted');
+        await this.log(LOG_LEVELS.INFO, 'Agent resumed - time output restarted');
     }
 
     /**
@@ -195,7 +205,7 @@ class GetTimeAgent extends AgentBase {
             clearInterval(this.interval);
             this.interval = null;
         }
-        this.log('info', 'Agent stopped - interval cleared');
+        await this.log(LOG_LEVELS.INFO, 'Agent stopped - interval cleared');
     }
 }
 
