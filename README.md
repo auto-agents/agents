@@ -34,7 +34,7 @@ This stuff has been `AI Generated` and `Vibe-Coded` using :
 
 <br>
 <br>
-And LLM models :
+Using LLM models :
 <br>
 
 - **`SWE-1.5`**
