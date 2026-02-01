@@ -21,6 +21,7 @@
 ## About
 
 This stuff has been `AI Generated` and `Vibe-Coded` using :
+<br>
 
 <img src='assets/windsurf-white-wordmark-croped.png' alt='Windsurf logo' width='600px'>
 
