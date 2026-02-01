@@ -20,11 +20,13 @@
 
 ## About
 
-This has been vibe-coded using
+This stuff has been `AI Generated` and `Vibe-Coded` using :
 
 <img src='assets/windsurf-white-wordmark-croped.png' alt='Windsurf logo' max-width='600'>
 
-And the models
+<br>
+And LLM models :
+<br>
 
 - **`SWE-1.5`**
 - **`GPT-5.2 Low Reasoning`**
