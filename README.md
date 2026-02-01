@@ -7,7 +7,7 @@
 **This repository contains the base agent and commons agents implementation**
 </td>
 <td>
-<img src='assets/agent-5.jfif' alt='Auto Agents' width='600'>
+<img src="assets/agent-5.jfif" alt="Auto Agents" width="800px">
 </td>
 </tr>
 </table>
@@ -23,7 +23,7 @@
 This stuff has been `AI Generated` and `Vibe-Coded` using :
 <br><br>
 
-<img src='assets/windsurf-white-wordmark-croped.png' alt='Windsurf logo' width='600px'>
+<img src="assets/windsurf-white-wordmark-croped.png" alt="Windsurf logo" width="600px">
 
 <br>
 And LLM models :
