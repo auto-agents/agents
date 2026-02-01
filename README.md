@@ -26,6 +26,7 @@ This stuff has been `AI Generated` and `Vibe-Coded` using :
 <img src="assets/windsurf-white-wordmark-croped.png" alt="Windsurf logo" width="600px">
 <a href="https://windsurf.com/" target="_blank" alt="Windsurf">https://windsurf.com/</a>
 
+<br><br>
 <br>
 And LLM models :
 <br>
