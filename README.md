@@ -22,7 +22,7 @@
 
 This has been vibe-coded using
 
-![Windsurf logo](/assets/windsurf-white-wordmark-croped.png "Windsurf logo")
+<img src='assets/windsurf-white-wordmark-croped.png' alt='Windsurf logo' max-width='600'>
 
 And the models
 
