@@ -6,7 +6,7 @@
 implements src/core/agent-base.js
 ```
 
-*👉 by default using model **SWE***
+*👉 by default using model **SWE-1.5***
 
 ## updates
 
