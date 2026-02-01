@@ -24,7 +24,7 @@ Any log text or error message produced by an agent must be translatable. To do t
 
 *👉 the internationlization task has needed using model **GPT-2.5 low reasoning***
 
-The texts translations and methods for logging translated texts must be located outside the agent-base/js,  in a reusable component located in file utils/logger.js
+The texts translations and methods for logging translated texts must be located outside the agent-base.js,  in a reusable component located in file utils/logger.js
 
 ## test: the get-time agent
 

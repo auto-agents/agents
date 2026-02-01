@@ -4,16 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 import {
     AGENT_STATES,
     AGENT_COMMANDS,
-    LOG_LEVELS,
     FILE_NAMES,
     RUN_PROPERTIES
 } from './agent-consts.js';
-import {
-    formatText,
-    loadAgentTexts,
-    loadCoreTexts,
-    resolveLang
-} from './i18n.js';
+import Logger from '../utils/logger.js';
 
 class AgentBase {
     constructor(agentName) {
@@ -24,10 +18,7 @@ class AgentBase {
         this.runEndTime = null;
         this.process = null;
 
-        this._lang = null;
-        this._coreTexts = null;
-        this._agentTexts = null;
-        this._textsLoaded = null;
+        this.logger = new Logger(agentName);
 
         // Setup IPC communication
         process.on('message', this.handleMessage.bind(this));
@@ -37,25 +28,8 @@ class AgentBase {
         process.on('SIGTERM', () => this.stop());
     }
 
-    async _ensureTextsLoaded() {
-        if (this._textsLoaded) {
-            return this._textsLoaded;
-        }
-
-        this._textsLoaded = (async () => {
-            this._lang = await resolveLang();
-            this._coreTexts = await loadCoreTexts(this._lang);
-            this._agentTexts = await loadAgentTexts(this.agentName, this._lang);
-        })();
-
-        return this._textsLoaded;
-    }
-
     async _t(textKey, params = []) {
-        await this._ensureTextsLoaded();
-
-        const candidate = this._agentTexts?.[textKey] ?? this._coreTexts?.[textKey] ?? textKey;
-        return formatText(candidate, params);
+        return await this.logger._t(textKey, params);
     }
 
     /**
@@ -82,10 +56,10 @@ class AgentBase {
                     await this.exit();
                     break;
                 default:
-                    this.log(LOG_LEVELS.WARNING, 'Unknown command: {0}', command);
+                    await this.logger.logWarning('Unknown command: {0}', [command]);
             }
         } catch (error) {
-            this.log(LOG_LEVELS.ERROR, 'Error handling message: {0}', error.message);
+            await this.logger.logError('Error handling message: {0}', [error.message]);
             this.state = AGENT_STATES.ERROR;
         }
     }
@@ -110,7 +84,7 @@ class AgentBase {
             await this.saveRunConfig(runConfig);
 
             // Log start
-            this.log(LOG_LEVELS.INFO, 'Agent started with run ID: {0}', this.currentRunId);
+            await this.logger.logInfo('Agent started with run ID: {0}', [this.currentRunId], this.currentRunId);
 
             // Update state
             await this.updateState();
@@ -123,7 +97,7 @@ class AgentBase {
             this.state = AGENT_STATES.STOPPED;
 
             // Log completion
-            this.log(LOG_LEVELS.INFO, 'Agent completed successfully');
+            await this.logger.logInfo('Agent completed successfully', [], this.currentRunId);
 
             // Update final state
             await this.updateState();
@@ -136,7 +110,7 @@ class AgentBase {
             this.runEndTime = new Date().toISOString();
             this.state = AGENT_STATES.ERROR;
 
-            this.log(LOG_LEVELS.ERROR, 'Agent failed: {0}', error.message);
+            await this.logger.logError('Agent failed: {0}', [error.message], this.currentRunId);
             await this.updateState();
             await this.savePerformanceMeasures();
 
@@ -154,7 +128,7 @@ class AgentBase {
         }
 
         this.state = AGENT_STATES.STOPPING;
-        this.log(LOG_LEVELS.INFO, 'Agent stopping...');
+        await this.logger.logInfo('Agent stopping...', [], this.currentRunId);
         await this.updateState();
 
         // Override this method in subclasses for cleanup
@@ -163,7 +137,7 @@ class AgentBase {
         this.runEndTime = new Date().toISOString();
         this.state = AGENT_STATES.STOPPED;
 
-        this.log(LOG_LEVELS.INFO, 'Agent stopped');
+        await this.logger.logInfo('Agent stopped', [], this.currentRunId);
         await this.updateState();
         await this.savePerformanceMeasures();
 
@@ -179,7 +153,7 @@ class AgentBase {
         }
 
         this.state = AGENT_STATES.PAUSED;
-        this.log(LOG_LEVELS.INFO, 'Agent paused');
+        await this.logger.logInfo('Agent paused', [], this.currentRunId);
         await this.updateState();
 
         // Override this method in subclasses
@@ -197,7 +171,7 @@ class AgentBase {
         }
 
         this.state = AGENT_STATES.RUNNING;
-        this.log(LOG_LEVELS.INFO, 'Agent resumed');
+        await this.logger.logInfo('Agent resumed', [], this.currentRunId);
         await this.updateState();
 
         // Override this method in subclasses
@@ -210,7 +184,7 @@ class AgentBase {
      * Exit the agent process
      */
     async exit() {
-        this.log(LOG_LEVELS.INFO, 'Agent exiting...');
+        await this.logger.logInfo('Agent exiting...', [], this.currentRunId);
         await this.stop();
         process.exit(0);
     }
@@ -275,26 +249,6 @@ class AgentBase {
 
         const performancePath = join(this.getRunDirectory(), FILE_NAMES.PERFORMANCE_MEASURES);
         await fs.writeFile(performancePath, JSON.stringify(performanceData, null, 2));
-    }
-
-    /**
-     * Log agent activity
-     */
-    async log(level, textKey, ...params) {
-        const timestamp = new Date().toISOString();
-        const message = await this._t(textKey, params);
-        const logEntry = `[${timestamp}] [${level.toUpperCase()}] ${message}\n`;
-
-        console.log(logEntry.trim());
-
-        if (this.currentRunId) {
-            const logPath = join(this.getRunDirectory(), FILE_NAMES.RUN_LOG);
-            try {
-                await fs.appendFile(logPath, logEntry);
-            } catch (error) {
-                console.error(await this._t('Failed to write to log file: {0}', [error.message]));
-            }
-        }
     }
 
     /**
