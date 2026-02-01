@@ -1,6 +1,16 @@
-# Agents Automator
+
+<table>
+<tr>
+<td>
+<h1>Auto Agents</h1>
 
 **This repository contains the base agent and commons agents implementation**
+</td>
+<td>
+<img src='assets/agent-5.jfif' alt='Auto Agents' width='600'>
+</td>
+</tr>
+</table>
 
 - the software is built within the specifications in file:
     - `doc/agent-model.md`
