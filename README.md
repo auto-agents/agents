@@ -16,7 +16,7 @@
 </tr>
 </table>
 
-- the software is built within the specifications in file:
+- the software is built within the **specifications** in file:
     - [`doc/agent-model.md`](doc/agent-model.md)
 
 - and fixed/adapted/evolved within **prompts** in file:

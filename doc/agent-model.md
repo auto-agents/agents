@@ -20,7 +20,7 @@ A software agent is a computer program that can perform tasks autonomously or wi
 
 A software agent always has these characteristics:
 
-- **input** : has no input or consumes any json file
+- **input** : has no input or consumes any files
 - **output** : has no output or produces one or several files
 - **configuration** : has no configuration or consumes any json configuration file
 - **behavior** : the agent behavior is defined by software implementation. The implementation is defined by a method called "run". any agent inherits from a base agent class that implements and/or defines the standardized agent interface. An agent can be defined by a class that extends the base agent class. Any agent must be able to respond to these signals:
