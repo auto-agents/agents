@@ -35,7 +35,7 @@ Agents must be grouped by categories. In order to do that, you have to move any 
 - agent implementation folder: src/agents/[agent category name]/[agent name]
 - agent configuration file: src/agents/[agent category name]/[agent name]/config.json
 
-Then update the agent `get-time` and its `usage.md` accordingly to the new folder structure. Then update the specification file `doc/agent-model.md` accordingly to the new folder structure.
+The agent `get-time` belongs to the category `system`. Then update the agent `get-time` and its `usage.md` accordingly to the new folder structure. Then update the specification file `doc/agent-model.md` accordingly to the new folder structure.
 
 ## test: the get-time agent
 
