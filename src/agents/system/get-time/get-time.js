@@ -1,10 +1,10 @@
-import AgentBase from '../../core/agent-base.js';
+import AgentBase from '../../../core/agent-base.js';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 
 class GetTimeAgent extends AgentBase {
     constructor() {
-        super('get-time');
+        super('get-time', 'system');
         this.interval = null;
         this.isPaused = false;
         this.config = {

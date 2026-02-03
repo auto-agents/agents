@@ -63,6 +63,9 @@ export async function loadCoreTexts(lang) {
     return loadTextMap(join(process.cwd(), 'src', 'core', 'resources', `text-${lang}.json`));
 }
 
-export async function loadAgentTexts(agentName, lang) {
-    return loadTextMap(join(process.cwd(), 'src', 'agents', agentName, 'resources', `text-${lang}.json`));
+export async function loadAgentTexts(agentName, lang, agentCategory = null) {
+    const agentPath = agentCategory
+        ? join(process.cwd(), 'src', 'agents', agentCategory, agentName, 'resources', `text-${lang}.json`)
+        : join(process.cwd(), 'src', 'agents', agentName, 'resources', `text-${lang}.json`);
+    return loadTextMap(agentPath);
 }

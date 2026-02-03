@@ -1,11 +1,12 @@
 import { fork } from 'child_process';
 import { join } from 'path';
-import { AGENT_COMMANDS } from '../../core/agent-consts.js';
+import { AGENT_COMMANDS } from '../../../core/agent-consts.js';
 
 class TestAgent {
     constructor() {
         this.agentProcess = null;
         this.agentName = 'get-time';
+        this.agentCategory = 'system';
         this.config = {
             interval: 5,
             timezone: 'UTC',
@@ -21,7 +22,7 @@ class TestAgent {
             console.log('Starting test agent...');
 
             // Spawn the agent process with IPC channel
-            const agentPath = join(process.cwd(), 'src', 'agents', this.agentName, 'get-time.js');
+            const agentPath = join(process.cwd(), 'src', 'agents', this.agentCategory, this.agentName, 'get-time.js');
             this.agentProcess = fork(agentPath, [], {
                 stdio: 'inherit',
                 ipc: true

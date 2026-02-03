@@ -8,8 +8,9 @@ import {
 } from '../core/i18n.js';
 
 class Logger {
-    constructor(agentName) {
+    constructor(agentName, agentCategory = null) {
         this.agentName = agentName;
+        this.agentCategory = agentCategory;
         this._lang = null;
         this._coreTexts = null;
         this._agentTexts = null;
@@ -24,7 +25,7 @@ class Logger {
         this._textsLoaded = (async () => {
             this._lang = await resolveLang();
             this._coreTexts = await loadCoreTexts(this._lang);
-            this._agentTexts = await loadAgentTexts(this.agentName, this._lang);
+            this._agentTexts = await loadAgentTexts(this.agentName, this._lang, this.agentCategory);
         })();
 
         return this._textsLoaded;

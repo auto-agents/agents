@@ -10,15 +10,16 @@ import {
 import Logger from '../utils/logger.js';
 
 class AgentBase {
-    constructor(agentName) {
+    constructor(agentName, agentCategory) {
         this.agentName = agentName;
+        this.agentCategory = agentCategory;
         this.state = AGENT_STATES.IDLE;
         this.currentRunId = null;
         this.runStartTime = null;
         this.runEndTime = null;
         this.process = null;
 
-        this.logger = new Logger(agentName);
+        this.logger = new Logger(agentName, agentCategory);
 
         // Setup IPC communication
         process.on('message', this.handleMessage.bind(this));

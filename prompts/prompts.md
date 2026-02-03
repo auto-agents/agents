@@ -37,6 +37,8 @@ Agents must be grouped by categories. In order to do that, you have to move any 
 
 The agent `get-time` belongs to the category `system`. Then update the agent `get-time` and its `usage.md` accordingly to the new folder structure. Then update the specification file `doc/agent-model.md` accordingly to the new folder structure.
 
+add the parameter agentCategory to the AgentBase base class and to TestAgent and to GetTime agent
+
 ## test: the get-time agent
 
 implements an agent named `get-time` in folder `/src/agents/system/get-time/get-time.js`. this agent has not input file, it output the current time in the format `YYYY-MM-DD HH:mm:ss`. it as a configuration parameter `interval` that defines the interval in seconds between each output. the default interval value is 5 seconds. it as a configuration parameter `timezone` that defines the timezone of the output. the default timezone value is 'UTC'. It as a configuration parameter `outputFile` that defines the file where the output is written. the default output file is `output.txt`. 
