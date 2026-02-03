@@ -8,7 +8,14 @@ import {
 } from '../core/i18n.js';
 
 class Logger {
-    constructor(agentName, agentCategory = null) {
+    constructor(agentName, agentCategory) {
+        if (!agentName) {
+            throw new Error('agentName is required and cannot be null or undefined');
+        }
+        if (!agentCategory) {
+            throw new Error('agentCategory is required and cannot be null or undefined');
+        }
+
         this.agentName = agentName;
         this.agentCategory = agentCategory;
         this._lang = null;

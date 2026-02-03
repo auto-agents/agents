@@ -12,6 +12,13 @@ import Logger from '../utils/logger.js';
 
 class AgentBase {
     constructor(agentName, agentCategory) {
+        if (!agentName) {
+            throw new Error('agentName is required and cannot be null or undefined');
+        }
+        if (!agentCategory) {
+            throw new Error('agentCategory is required and cannot be null or undefined');
+        }
+
         this.agentName = agentName;
         this.agentCategory = agentCategory;
         this.state = AGENT_STATES.IDLE;
@@ -21,6 +28,9 @@ class AgentBase {
         this.process = null;
 
         this.logger = new Logger(agentName, agentCategory);
+
+        // Initialize with empty config, subclasses should set defaults
+        this.config = {};
 
         // Setup IPC communication
         process.on('message', this.handleMessage.bind(this));
@@ -32,6 +42,51 @@ class AgentBase {
 
     async _t(textKey, params = []) {
         return await this.logger._t(textKey, params);
+    }
+
+    /**
+     * Load configuration from default config file and run config
+     * This method can be overridden by subclasses for custom config loading logic
+     */
+    async loadConfiguration(runConfig) {
+        try {
+            // Load default config from agent category path
+            const defaultConfigPath = join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.AGENTS, this.agentCategory, this.agentName, FILE_NAMES.CONFIG);
+            const defaultConfigContent = await fs.readFile(defaultConfigPath, 'utf8');
+            const defaultConfig = JSON.parse(defaultConfigContent);
+
+            // Merge with run config
+            this.config = { ...defaultConfig, ...runConfig.config };
+
+            // Allow subclasses to add custom logging
+            await this.onConfigurationLoaded();
+
+        } catch (error) {
+            await this.onConfigurationError(error);
+
+            // Fallback to run config or defaults
+            if (runConfig.config) {
+                this.config = { ...this.config, ...runConfig.config };
+            }
+        }
+    }
+
+    /**
+     * Called after configuration is successfully loaded
+     * Override in subclasses to add custom logging
+     */
+    async onConfigurationLoaded() {
+        // Default implementation - no logging
+        // Subclasses should override this to add their logging
+    }
+
+    /**
+     * Called when configuration loading fails
+     * Provides default error logging, can be overridden by subclasses
+     */
+    async onConfigurationError(error) {
+        // Default implementation - log the error
+        await this.logger.logWarning('Failed to load configuration, using defaults: {0}', [error.message], this.currentRunId);
     }
 
     /**
@@ -81,6 +136,9 @@ class AgentBase {
 
             // Create run directory structure
             await this.createRunDirectory();
+
+            // Load configuration
+            await this.loadConfiguration(runConfig);
 
             // Save run configuration
             await this.saveRunConfig(runConfig);

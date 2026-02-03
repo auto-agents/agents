@@ -64,9 +64,14 @@ export async function loadCoreTexts(lang) {
     return loadTextMap(join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.CORE, DIR_STRUCTURE.RESOURCES, `text-${lang}.json`));
 }
 
-export async function loadAgentTexts(agentName, lang, agentCategory = null) {
-    const agentPath = agentCategory
-        ? join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.AGENTS, agentCategory, agentName, DIR_STRUCTURE.RESOURCES, `text-${lang}.json`)
-        : join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.AGENTS, agentName, DIR_STRUCTURE.RESOURCES, `text-${lang}.json`);
+export async function loadAgentTexts(agentName, lang, agentCategory) {
+    if (!agentName) {
+        throw new Error('agentName is required and cannot be null or undefined');
+    }
+    if (!agentCategory) {
+        throw new Error('agentCategory is required and cannot be null or undefined');
+    }
+
+    const agentPath = join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.AGENTS, agentCategory, agentName, DIR_STRUCTURE.RESOURCES, `text-${lang}.json`);
     return loadTextMap(agentPath);
 }

@@ -45,6 +45,14 @@ add usage of consts FILE_NAMES defined in file agent-consts.js, in the agent cla
 
 add missing consts for paths in agent-consts.js DIR_STRUCTURE. add usage of these new consts in classes AgentBase and GetTimeAgent
 
+generalize method loadConfiguration into AgentBase class. it must be called in the start method. keep logging in the agent subclass
+
+generalize method onConfigurationError in AgentBase class
+
+agentCategory property is mandatory, it can't be null or undefined. fix the code accordingly
+
+agentName property is mandatory, it can't be null or undefined. fix the code accordingly
+
 ## test: the get-time agent
 
 implements an agent named `get-time` in folder `/src/agents/system/get-time/get-time.js`. this agent has not input file, it output the current time in the format `YYYY-MM-DD HH:mm:ss`. it as a configuration parameter `interval` that defines the interval in seconds between each output. the default interval value is 5 seconds. it as a configuration parameter `timezone` that defines the timezone of the output. the default timezone value is 'UTC'. It as a configuration parameter `outputFile` that defines the file where the output is written. the default output file is `output.txt`. 

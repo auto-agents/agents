@@ -7,6 +7,15 @@ class TestAgent {
         this.agentProcess = null;
         this.agentName = 'get-time';
         this.agentCategory = 'system';
+
+        // Validate required properties
+        if (!this.agentName) {
+            throw new Error('agentName is required and cannot be null or undefined');
+        }
+        if (!this.agentCategory) {
+            throw new Error('agentCategory is required and cannot be null or undefined');
+        }
+
         this.config = {
             interval: 5,
             timezone: 'UTC',

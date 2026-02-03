@@ -8,6 +8,7 @@ class GetTimeAgent extends AgentBase {
         super('get-time', 'system');
         this.interval = null;
         this.isPaused = false;
+        // Set default config - will be merged with loaded config
         this.config = {
             interval: 5,
             timezone: 'UTC',
@@ -20,9 +21,6 @@ class GetTimeAgent extends AgentBase {
      */
     async run(runConfig) {
         try {
-            // Load configuration
-            await this.loadConfiguration(runConfig);
-
             await this.logger.logInfo(
                 'Starting time output agent with interval: {0}s, timezone: {1}, output file: {2}',
                 [this.config.interval, this.config.timezone, this.config.outputFile],
@@ -39,31 +37,15 @@ class GetTimeAgent extends AgentBase {
     }
 
     /**
-     * Load configuration from run config and default config
+     * Called after configuration is successfully loaded
+     * Add custom logging for configuration loading
      */
-    async loadConfiguration(runConfig) {
-        try {
-            // Load default config
-            const defaultConfigPath = join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.AGENTS, this.agentCategory, this.agentName, FILE_NAMES.CONFIG);
-            const defaultConfigContent = await fs.readFile(defaultConfigPath, 'utf8');
-            const defaultConfig = JSON.parse(defaultConfigContent);
-
-            // Merge with run config
-            this.config = { ...defaultConfig, ...runConfig.config };
-
-            await this.logger.logInfo(
-                'Configuration loaded: interval={0}s, timezone={1}, outputFile={2}',
-                [this.config.interval, this.config.timezone, this.config.outputFile],
-                this.currentRunId
-            );
-
-        } catch (error) {
-            await this.logger.logWarning('Failed to load configuration, using defaults: {0}', [error.message], this.currentRunId);
-            // Use defaults if config file doesn't exist
-            if (runConfig.config) {
-                this.config = { ...this.config, ...runConfig.config };
-            }
-        }
+    async onConfigurationLoaded() {
+        await this.logger.logInfo(
+            'Configuration loaded: interval={0}s, timezone={1}, outputFile={2}',
+            [this.config.interval, this.config.timezone, this.config.outputFile],
+            this.currentRunId
+        );
     }
 
     /**
