@@ -28,14 +28,14 @@ The agent accepts the following configuration parameters:
 ### Using the Test Runner
 
 ```bash
-node src/agents/get-time/test-agent.js
+node src/agents/system/get-time/test-agent.js
 ```
 
 This will start the agent with default configuration and run for 15 seconds before automatically stopping.
 
 ### Custom Configuration
 
-You can modify the configuration by editing `src/agents/get-time/config.json`:
+You can modify the configuration by editing `src/agents/system/get-time/config.json`:
 
 ```json
 {
