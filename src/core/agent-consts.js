@@ -36,9 +36,12 @@ export const FILE_NAMES = {
 
 // Directory structure
 export const DIR_STRUCTURE = {
+    SRC: 'src',
     AGENTS: 'agents',
+    CORE: 'core',
     RUN: 'run',
-    CORE: 'core'
+    OUTPUT: 'output',
+    RESOURCES: 'resources'
 };
 
 // Run properties structure

@@ -1,6 +1,7 @@
 import AgentBase from '../../../core/agent-base.js';
 import { promises as fs } from 'fs';
 import { join } from 'path';
+import { FILE_NAMES, AGENT_STATES, DIR_STRUCTURE } from '../../../core/agent-consts.js';
 
 class GetTimeAgent extends AgentBase {
     constructor() {
@@ -43,7 +44,7 @@ class GetTimeAgent extends AgentBase {
     async loadConfiguration(runConfig) {
         try {
             // Load default config
-            const defaultConfigPath = join(process.cwd(), 'src', 'agents', 'get-time', 'config.json');
+            const defaultConfigPath = join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.AGENTS, this.agentCategory, this.agentName, FILE_NAMES.CONFIG);
             const defaultConfigContent = await fs.readFile(defaultConfigPath, 'utf8');
             const defaultConfig = JSON.parse(defaultConfigContent);
 
@@ -79,7 +80,7 @@ class GetTimeAgent extends AgentBase {
 
         return new Promise((resolve, reject) => {
             this.interval = setInterval(async () => {
-                if (this.state === 'stopping') {
+                if (this.state === AGENT_STATES.STOPPING) {
                     if (this.interval) {
                         clearInterval(this.interval);
                         this.interval = null;
@@ -118,7 +119,7 @@ class GetTimeAgent extends AgentBase {
             const output = `${formattedTime}\n`;
 
             // Create output directory if it doesn't exist
-            const outputDir = join(this.getRunDirectory(), 'output');
+            const outputDir = join(this.getRunDirectory(), DIR_STRUCTURE.OUTPUT);
             await fs.mkdir(outputDir, { recursive: true });
 
             // Write to output file in output directory

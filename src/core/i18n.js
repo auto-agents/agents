@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs';
 import { join } from 'path';
+import { DIR_STRUCTURE } from './agent-consts.js';
 
 let cachedGlobals = null;
 let cachedLang = null;
@@ -15,7 +16,7 @@ export async function getDefaultLang() {
     }
 
     try {
-        cachedGlobals = await readJson(join(process.cwd(), 'src', 'core', 'globals.json'));
+        cachedGlobals = await readJson(join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.CORE, 'globals.json'));
         if (!cachedGlobals || typeof cachedGlobals.lang !== 'string') {
             cachedGlobals = { lang: 'en' };
         }
@@ -60,12 +61,12 @@ export async function loadTextMap(filePath) {
 }
 
 export async function loadCoreTexts(lang) {
-    return loadTextMap(join(process.cwd(), 'src', 'core', 'resources', `text-${lang}.json`));
+    return loadTextMap(join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.CORE, DIR_STRUCTURE.RESOURCES, `text-${lang}.json`));
 }
 
 export async function loadAgentTexts(agentName, lang, agentCategory = null) {
     const agentPath = agentCategory
-        ? join(process.cwd(), 'src', 'agents', agentCategory, agentName, 'resources', `text-${lang}.json`)
-        : join(process.cwd(), 'src', 'agents', agentName, 'resources', `text-${lang}.json`);
+        ? join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.AGENTS, agentCategory, agentName, DIR_STRUCTURE.RESOURCES, `text-${lang}.json`)
+        : join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.AGENTS, agentName, DIR_STRUCTURE.RESOURCES, `text-${lang}.json`);
     return loadTextMap(agentPath);
 }
