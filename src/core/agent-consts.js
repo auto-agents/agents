@@ -58,3 +58,9 @@ export const RUN_CONFIG = {
     INPUT: 'input',
     CONFIG: 'config'
 };
+
+// Error messages
+export const ERROR_MESSAGES = {
+    AGENT_NAME_REQUIRED: 'agentName is required and cannot be null or undefined',
+    AGENT_CATEGORY_REQUIRED: 'agentCategory is required and cannot be null or undefined'
+};

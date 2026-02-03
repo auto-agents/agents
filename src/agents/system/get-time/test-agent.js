@@ -1,6 +1,6 @@
 import { fork } from 'child_process';
 import { join } from 'path';
-import { AGENT_COMMANDS } from '../../../core/agent-consts.js';
+import { AGENT_COMMANDS, ERROR_MESSAGES } from '../../../core/agent-consts.js';
 
 class TestAgent {
     constructor() {
@@ -10,10 +10,10 @@ class TestAgent {
 
         // Validate required properties
         if (!this.agentName) {
-            throw new Error('agentName is required and cannot be null or undefined');
+            throw new Error(ERROR_MESSAGES.AGENT_NAME_REQUIRED);
         }
         if (!this.agentCategory) {
-            throw new Error('agentCategory is required and cannot be null or undefined');
+            throw new Error(ERROR_MESSAGES.AGENT_CATEGORY_REQUIRED);
         }
 
         this.config = {

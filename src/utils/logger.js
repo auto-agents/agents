@@ -6,15 +6,15 @@ import {
     loadCoreTexts,
     resolveLang
 } from '../core/i18n.js';
-import { DIR_STRUCTURE, FILE_NAMES, LOG_LEVELS } from '../core/agent-consts.js';
+import { DIR_STRUCTURE, FILE_NAMES, LOG_LEVELS, ERROR_MESSAGES } from '../core/agent-consts.js';
 
 class Logger {
     constructor(agentName, agentCategory) {
         if (!agentName) {
-            throw new Error('agentName is required and cannot be null or undefined');
+            throw new Error(ERROR_MESSAGES.AGENT_NAME_REQUIRED);
         }
         if (!agentCategory) {
-            throw new Error('agentCategory is required and cannot be null or undefined');
+            throw new Error(ERROR_MESSAGES.AGENT_CATEGORY_REQUIRED);
         }
 
         this.agentName = agentName;

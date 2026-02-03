@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
 import { join } from 'path';
-import { DIR_STRUCTURE } from './agent-consts.js';
+import { DIR_STRUCTURE, ERROR_MESSAGES } from './agent-consts.js';
 
 let cachedGlobals = null;
 let cachedLang = null;
@@ -66,10 +66,10 @@ export async function loadCoreTexts(lang) {
 
 export async function loadAgentTexts(agentName, lang, agentCategory) {
     if (!agentName) {
-        throw new Error('agentName is required and cannot be null or undefined');
+        throw new Error(ERROR_MESSAGES.AGENT_NAME_REQUIRED);
     }
     if (!agentCategory) {
-        throw new Error('agentCategory is required and cannot be null or undefined');
+        throw new Error(ERROR_MESSAGES.AGENT_CATEGORY_REQUIRED);
     }
 
     const agentPath = join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.AGENTS, agentCategory, agentName, DIR_STRUCTURE.RESOURCES, `text-${lang}.json`);

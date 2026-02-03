@@ -153,7 +153,7 @@ class GetTimeAgent extends AgentBase {
             return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
         } catch (error) {
-            console.error('Error formatting time:', error.message);
+            this.logger.logError('Error formatting time: {0}', [error.message], this.currentRunId).catch(() => { });
             // Fallback to basic formatting
             return date.toISOString().replace('T', ' ').substring(0, 19);
         }

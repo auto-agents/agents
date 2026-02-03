@@ -6,17 +6,21 @@ import {
     AGENT_COMMANDS,
     FILE_NAMES,
     RUN_PROPERTIES,
-    DIR_STRUCTURE
+    DIR_STRUCTURE,
+    ERROR_MESSAGES
 } from './agent-consts.js';
 import Logger from '../utils/logger.js';
 
 class AgentBase {
     constructor(agentName, agentCategory) {
+
+        this.logger = new Logger(agentName, agentCategory);
+
         if (!agentName) {
-            throw new Error('agentName is required and cannot be null or undefined');
+            throw new Error(ERROR_MESSAGES.AGENT_NAME_REQUIRED);
         }
         if (!agentCategory) {
-            throw new Error('agentCategory is required and cannot be null or undefined');
+            throw new Error(ERROR_MESSAGES.AGENT_CATEGORY_REQUIRED);
         }
 
         this.agentName = agentName;
@@ -27,7 +31,6 @@ class AgentBase {
         this.runEndTime = null;
         this.process = null;
 
-        this.logger = new Logger(agentName, agentCategory);
         this.logger.className = this.constructor.name;
 
         // Initialize with empty config, subclasses should set defaults
