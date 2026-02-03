@@ -26,14 +26,14 @@ Any log text or error message produced by an agent must be translatable. To do t
 
 *👉 the internationlization task has needed using model **GPT-2.5 low reasoning***
 
-The texts translations and methods for logging translated texts must be located outside the agent-base.js,  in a reusable component located in file utils/logger.js
+The texts translations and methods for logging translated texts must be located outside the `agent-base.js`,  in a reusable component located in file `utils/logger.js`
 
 ### refactoring folders: group agents by category
 
 Agents must be grouped by categories. In order to do that, you have to move any agents tp the new folders:
-- agent documentation: file src/agents/[agent category name]/[agent name]/usage.md
-- agent implementation folder: src/agents/[agent category name]/[agent name]
-- agent configuration file: src/agents/[agent category name]/[agent name]/config.json
+- agent documentation: file `src/agents/[agent category name]/[agent name]/usage.md`
+- agent implementation folder: `src/agents/[agent category name]/[agent name]`
+- agent configuration file: `src/agents/[agent category name]/[agent name]/config.json`
 
 The agent `get-time` belongs to the category `system`. Then update the agent `get-time` and its `usage.md` accordingly to the new folder structure. Then update the specification file `doc/agent-model.md` accordingly to the new folder structure.
 
@@ -41,17 +41,17 @@ add the parameter agentCategory to the AgentBase base class and to TestAgent and
 
 ### improve agent implementation
 
-add usage of consts FILE_NAMES defined in file agent-consts.js, in the agent class GetTimeAgent
+add usage of consts `FILE_NAMES` defined in file `agent-consts.js`, in the agent class `GetTimeAgent`
 
-add missing consts for paths in agent-consts.js DIR_STRUCTURE. add usage of these new consts in classes AgentBase and GetTimeAgent
+add missing consts for paths in `agent-consts.js` `DIR_STRUCTURE`. add usage of these new consts in classes `AgentBase` and `GetTimeAgent`
 
-generalize method loadConfiguration into AgentBase class. it must be called in the start method. keep logging in the agent subclass
+generalize method `loadConfiguration` into `AgentBase` class. it must be called in the start method. keep logging in the agent subclass
 
-generalize method onConfigurationError in AgentBase class
+generalize method `onConfigurationError` in `AgentBase` class
 
-agentCategory property is mandatory, it can't be null or undefined. fix the code accordingly
+`agentCategory` property is mandatory, it can't be null or undefined. fix the code accordingly
 
-agentName property is mandatory, it can't be null or undefined. fix the code accordingly
+`agentName` property is mandatory, it can't be null or undefined. fix the code accordingly
 
 ## test: the get-time agent
 
