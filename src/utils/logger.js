@@ -6,6 +6,7 @@ import {
     loadCoreTexts,
     resolveLang
 } from '../core/i18n.js';
+import { DIR_STRUCTURE, FILE_NAMES, LOG_LEVELS } from '../core/agent-consts.js';
 
 class Logger {
     constructor(agentName, agentCategory) {
@@ -18,6 +19,7 @@ class Logger {
 
         this.agentName = agentName;
         this.agentCategory = agentCategory;
+        this.className = this.constructor.name;
         this._lang = null;
         this._coreTexts = null;
         this._agentTexts = null;
@@ -48,12 +50,12 @@ class Logger {
     async log(level, textKey, params = [], runId = null) {
         const timestamp = new Date().toISOString();
         const message = await this._t(textKey, params);
-        const logEntry = `[${timestamp}] [${level.toUpperCase()}] ${message}\n`;
+        const logEntry = `[${timestamp}] [${level.toUpperCase()}] [${this.className}] ${message}\n`;
 
         console.log(logEntry.trim());
 
         if (runId) {
-            const logPath = join(process.cwd(), 'run', this.agentName, runId, 'run.log');
+            const logPath = join(process.cwd(), DIR_STRUCTURE.RUN, this.agentName, runId, FILE_NAMES.RUN_LOG);
             try {
                 await fs.appendFile(logPath, logEntry);
             } catch (error) {
@@ -63,15 +65,15 @@ class Logger {
     }
 
     async logInfo(textKey, params = [], runId = null) {
-        await this.log('INFO', textKey, params, runId);
+        await this.log(LOG_LEVELS.INFO, textKey, params, runId);
     }
 
     async logWarning(textKey, params = [], runId = null) {
-        await this.log('WARNING', textKey, params, runId);
+        await this.log(LOG_LEVELS.WARNING, textKey, params, runId);
     }
 
     async logError(textKey, params = [], runId = null) {
-        await this.log('ERROR', textKey, params, runId);
+        await this.log(LOG_LEVELS.ERROR, textKey, params, runId);
     }
 }
 

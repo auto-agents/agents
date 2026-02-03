@@ -28,6 +28,7 @@ class AgentBase {
         this.process = null;
 
         this.logger = new Logger(agentName, agentCategory);
+        this.logger.className = this.constructor.name;
 
         // Initialize with empty config, subclasses should set defaults
         this.config = {};
