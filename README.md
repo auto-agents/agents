@@ -19,7 +19,7 @@
 - the software is built within the **specifications** in file:
     - [`doc/agent-model.md`](doc/agent-model.md)
 
-- and fixed/adapted/evolved within **tasks** in file:
+- and developed within **tasks** in file:
     - [`tasks/dev-agent-model.md`](tasks/dev-agent-model.md)
 
 ## About
