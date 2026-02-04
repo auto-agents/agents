@@ -1,8 +1,0 @@
-{
-  "input": [],
-  "config": {
-    "interval": 5,
-    "timezone": "UTC",
-    "outputFile": "output.txt"
-  }
-}

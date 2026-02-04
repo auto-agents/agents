@@ -138,3 +138,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 doc/api-info.txt
+
+# run directory
+run/*
