@@ -17,10 +17,16 @@
 </table>
 
 - the software is built within the **specifications** in file:
-    - [`doc/agent-model.md`](doc/agent-model.md)
+    - [`specifications/agent-model.md`](specifications/agent-model.md)
 
 - and developed within **tasks** in file:
     - [`tasks/dev-agent-model.md`](tasks/dev-agent-model.md)
+
+- documentation is generated with **documentation.md** file:
+    - [`doc/documentation.md`](doc/documentation.md)
+
+- generated general documention are available in the `doc` folder:
+    - [`doc/agent-functional-diagram.md`](doc/agent-functional-diagram.md)
 
 ## About
 
