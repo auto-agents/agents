@@ -1,6 +1,6 @@
 import { fork } from 'child_process';
 import { join } from 'path';
-import { AGENT_COMMANDS, ERROR_MESSAGES, FILE_NAMES, DIR_STRUCTURE } from '../../../core/agent-consts.js';
+import { AGENT_COMMANDS, FILE_NAMES, DIR_STRUCTURE } from '../../../core/agent-consts.js';
 
 class TestAgent {
     constructor() {
