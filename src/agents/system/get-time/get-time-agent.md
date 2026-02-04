@@ -12,6 +12,8 @@ change the ouput file of GetTimeAgent to `output.json` using the const from `age
 
 remove properties agent and `runId` from the output
 
+use path consts in test-agent
+
 ## test
 
 implements the file `node src/agents/system/get-time/test-agent.js` according to the specification defined in `doc/agent-model.md` that run the agent `get-time`

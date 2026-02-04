@@ -1,20 +1,12 @@
 import { fork } from 'child_process';
 import { join } from 'path';
-import { AGENT_COMMANDS, ERROR_MESSAGES, FILE_NAMES } from '../../../core/agent-consts.js';
+import { AGENT_COMMANDS, ERROR_MESSAGES, FILE_NAMES, DIR_STRUCTURE } from '../../../core/agent-consts.js';
 
 class TestAgent {
     constructor() {
         this.agentProcess = null;
         this.agentName = 'get-time';
         this.agentCategory = 'system';
-
-        // Validate required properties
-        if (!this.agentName) {
-            throw new Error(ERROR_MESSAGES.AGENT_NAME_REQUIRED);
-        }
-        if (!this.agentCategory) {
-            throw new Error(ERROR_MESSAGES.AGENT_CATEGORY_REQUIRED);
-        }
 
         this.config = {
             interval: 5,
@@ -31,7 +23,7 @@ class TestAgent {
             console.log('Starting test agent...');
 
             // Spawn the agent process with IPC channel
-            const agentPath = join(process.cwd(), 'src', 'agents', this.agentCategory, this.agentName, 'get-time.js');
+            const agentPath = join(process.cwd(), DIR_STRUCTURE.SRC, DIR_STRUCTURE.AGENTS, this.agentCategory, this.agentName, 'get-time.js');
             this.agentProcess = fork(agentPath, [], {
                 stdio: 'inherit',
                 ipc: true
