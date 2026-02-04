@@ -1,6 +1,6 @@
 import { fork } from 'child_process';
 import { join } from 'path';
-import { AGENT_COMMANDS, ERROR_MESSAGES } from '../../../core/agent-consts.js';
+import { AGENT_COMMANDS, ERROR_MESSAGES, FILE_NAMES } from '../../../core/agent-consts.js';
 
 class TestAgent {
     constructor() {
@@ -19,7 +19,7 @@ class TestAgent {
         this.config = {
             interval: 5,
             timezone: 'UTC',
-            outputFile: 'output.txt'
+            outputFile: FILE_NAMES.OUTPUT
         };
     }
 

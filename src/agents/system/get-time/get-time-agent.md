@@ -8,6 +8,10 @@ implements an agent named `get-time` in folder `/src/agents/system/get-time/get-
 
 do not use individual class attributes to store config in the agent `test-agent.js`, kept a single config object
 
+change the ouput file of GetTimeAgent to `output.json` using the const from `agent-consts.js` and produces a JSON file accordingly
+
+remove properties agent and `runId` from the output
+
 ## test
 
 implements the file `node src/agents/system/get-time/test-agent.js` according to the specification defined in `doc/agent-model.md` that run the agent `get-time`

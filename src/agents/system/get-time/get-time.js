@@ -12,7 +12,7 @@ class GetTimeAgent extends AgentBase {
         this.config = {
             interval: 5,
             timezone: 'UTC',
-            outputFile: 'output.txt'
+            outputFile: FILE_NAMES.OUTPUT
         };
     }
 
@@ -97,8 +97,11 @@ class GetTimeAgent extends AgentBase {
             // Format time according to timezone
             const formattedTime = this.formatTime(now);
 
-            // Create output string
-            const output = `${formattedTime}\n`;
+            // Create JSON output object
+            const outputData = {
+                timestamp: formattedTime,
+                timezone: this.config.timezone
+            };
 
             // Create output directory if it doesn't exist
             const outputDir = join(this.getRunDirectory(), DIR_STRUCTURE.OUTPUT);
@@ -106,7 +109,7 @@ class GetTimeAgent extends AgentBase {
 
             // Write to output file in output directory
             const outputPath = join(outputDir, this.config.outputFile);
-            await fs.writeFile(outputPath, output, 'utf8');
+            await fs.writeFile(outputPath, JSON.stringify(outputData, null, 2), 'utf8');
 
             await this.logger.logInfo('Time output written: {0}', [formattedTime], this.currentRunId);
 
@@ -142,15 +145,12 @@ class GetTimeAgent extends AgentBase {
                 adjustedDate = new Date(date.getTime() + (offset * 60 * 60 * 1000));
             }
 
-            // Format as YYYY-MM-DD HH:mm:ss
-            const year = adjustedDate.getFullYear();
-            const month = String(adjustedDate.getMonth() + 1).padStart(2, '0');
-            const day = String(adjustedDate.getDate()).padStart(2, '0');
+            // Format as HH:mm:ss
             const hours = String(adjustedDate.getHours()).padStart(2, '0');
             const minutes = String(adjustedDate.getMinutes()).padStart(2, '0');
             const seconds = String(adjustedDate.getSeconds()).padStart(2, '0');
 
-            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            return `${hours}:${minutes}:${seconds}`;
 
         } catch (error) {
             this.logger.logError('Error formatting time: {0}', [error.message], this.currentRunId).catch(() => { });
