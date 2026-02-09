@@ -16,4 +16,4 @@ use path consts in test-agent
 
 ## test
 
-implements the file `node src/agents/system/get-time/test-agent.js` according to the specification defined in `doc/agent-model.md` that run the agent `get-time`
+implements the file `src/agents/system/get-time/test-agent.js` according to the specification defined in `doc/agent-model.md` that run the agent `get-time`
