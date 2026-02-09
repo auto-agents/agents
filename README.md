@@ -16,6 +16,8 @@
 </tr>
 </table>
 
+---
+
 - the software is built within the **specifications** in file:
     - [`specifications/agent-model.md`](specifications/agent-model.md)
 
