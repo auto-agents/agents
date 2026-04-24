@@ -2,7 +2,7 @@
 <table>
 <tr>
 <td>
-<h1>Auto Agents</h1>
+<h1>Bulbing Bots</h1>
 
 *&gt; software agents & agents workflows orchestrator.*
 
@@ -13,7 +13,7 @@
 **This repository contains the base agent and commons agents implementation**
 </td>
 <td>
-<img src="assets/agent-5.jfif" alt="Auto Agents" width="800px">
+<img src="assets/agent-5.jfif" alt="Bulbing Bots" width="800px">
 </td>
 </tr>
 </table>
